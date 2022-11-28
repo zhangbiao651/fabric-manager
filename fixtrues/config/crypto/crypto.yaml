@@ -1,0 +1,30 @@
+OrdererOrgs:
+  - Name: Orderer
+    Domain: zhangbiao651.top
+    EnableNodeOUs: true
+
+    Specs:
+      - Hostname: orderer
+
+PeerOrgs:
+  - Name: Org1
+    Domain: org1.zhangbiao651.top
+    EnableNodeOUs: true
+
+
+    Template:
+      Count: 2
+
+    Users:
+      Count: 1
+  - Name: Org2
+    Domain: org2.zhangbiao651.top
+    EnableNodeOUs: true
+
+
+    Template:
+      Count: 2
+
+    Users:
+      Count: 1
+

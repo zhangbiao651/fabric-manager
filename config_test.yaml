@@ -1,0 +1,215 @@
+
+version: 1.0.0
+
+client:
+
+  organization: Org1MSP
+
+  logging:
+    level: info
+
+  cryptoconfig:
+    path:  ./fabric-manager/fixtrues/orgs/
+
+  credentialStore:
+
+    path: "/tmp/state-store"
+
+    cryptoStore:
+      # Specific to the underlying KeyValueStore that backs the crypto key store.
+      path: /tmp/msp
+
+  BCCSP:
+    security:
+     enabled: true
+     default:
+      provider: "SW"
+     hashAlgorithm: "SHA2"
+     softVerify: true
+     level: 256
+
+  tlsCerts:
+    # [Optional]. Use system certificate pool when connecting to peers, orderers (for negotiating TLS) Default: false
+    systemCertPool: false
+
+    # [Optional]. Client key and cert for TLS handshake with peers and orderers
+    client:
+      key:
+        path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org1.zhangbiao651.top/users/Admin@org1.zhangbiao651.top/tls/client.key
+
+      cert:
+        path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org1.zhangbiao651.top/users/Admin@org1.zhangbiao651.top/tls/client.crt
+
+
+channels:
+
+  mychannel:
+    peers:
+      peer0.org1.zhangbiao651.top:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+
+      peer1.org1.zhangbiao651.top:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+          
+      peer0.org2.zhangbiao651.top:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+
+      peer1.org2.zhangbiao651.top:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+
+    policies:
+      queryChannelConfig:
+        minResponses: 1
+        maxTargets: 1
+        retryOpts:
+          attempts: 5
+          initialBackoff: 500ms
+          maxBackoff: 5s
+          backoffFactor: 2.0
+#
+          ## list of participating organizations in this network
+#
+organizations:
+  Org1:
+    mspid: Org1MSP
+
+    # This org's MSP store (absolute path or relative to client.cryptoconfig)
+    cryptoPath:  /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org1.zhangbiao651.top/users/{username}@org1.zhangbiao651.top/msp
+    #cryptoPath:  /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org1.zhangbiao651.top/msp
+
+    peers:
+      - peer0.org1.zhangbiao651.top
+      - peer1.org1.zhangbiao651.top
+        #    users:
+        #      Admin:
+        #        cret:
+        #          path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org1.zhangbiao651.top/users/Admin@org1.zhangbiao651.top/msp/signcerts/Admin@org1.zhangbiao651.top-cert.pem
+        #        key:
+        #          path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org1.zhangbiao651.top/users/Admin@org1.zhangbiao651.top/msp/keystore/priv_sk
+        #
+  Org2:
+    mspid: Org2MSP
+
+    # This org's MSP store (absolute path or relative to client.cryptoconfig)
+    cryptoPath:  /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org2.zhangbiao651.top/users/{username}@org2.zhangbiao651.top/msp
+    #cryptoPath:  /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org2.zhangbiao651.top/msp
+
+    peers:
+      - peer0.org2.zhangbiao651.top
+      - peer1.org2.zhangbiao651.top
+
+        #    users:
+        #      Admin:
+        #        cret:
+        #          path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org2.zhangbiao651.top/users/Admin@org2.zhangbiao651.top/msp/signcerts/Admin@org2.zhangbiao651.top-cert.pem
+        #        key:
+        #          path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org2.zhangbiao651.top/users/Admin@org2.zhangbiao651.top/msp/keystore/priv_sk
+  OrdererOrg:
+      mspID: OrdererMSP
+      cryptoPath: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/ordererOrganizations/zhangbiao651.top/users/{username}@zhangbiao651.top/msp
+        # cryptoPath: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/ordererOrganizations/msp
+        #      users:
+        #        cret:
+        #          path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/ordererOrganizations/zhangbiao651.top/users/Admin@zhangbiao651.top/msp/signcerts/Admin@zhangbiao651.top-cert.pem
+        #        key:
+        #          path: /home/zb/fabric/project/v1.0.1/fabric-manager/fixtrues/orgs/ordererOrganizations/zhangbiao651.top/users/Admin@zhangbiao651.top/msp/keystore/priv_sk
+
+orderers:
+
+
+  orderer.zhangbiao651.top:
+    url: orderer.zhangbiao651.top:7050
+
+    grpcOptions:
+      ssl-target-name-override: orderer.zhangbiao651.top
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      allow-insecure: false
+
+    tlsCACerts:
+      #path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/ordererOrganizations/zhangbiao651.top/tlsca/tlsca.zhangbiao651.top-cert.pem
+      path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/ordererOrganizations/zhangbiao651.top/orderers/orderer.zhangbiao651.top/msp/tlscacerts/tlsca.zhangbiao651.top-cert.pem
+peers:
+
+
+  peer0.org1.zhangbiao651.top:
+    url: peer0.org1.zhangbiao651.top:7051
+    grpcOptions:
+      ssl-target-name-override: peer0.org1.zhangbiao651.top
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      allow-insecure: false
+
+    tlsCACerts:
+      path:  /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org1.zhangbiao651.top/tlsca/tlsca.org1.zhangbiao651.top-cert.pem
+      # path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org1.zhangbiao651.top/peers/peer0.org1.zhangbiao651.top/tls/ca.crt
+  peer1.org1.zhangbiao651.top:
+    url: peer1.org1.zhangbiao651.top:7151
+    grpcOptions:
+      ssl-target-name-override: peer1.org1.zhangbiao651.top
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      allow-insecure: false
+    tlsCACerts:
+      path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org1.zhangbiao651.top/tlsca/tlsca.org1.zhangbiao651.top-cert.pem
+      #path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org1.zhangbiao651.top/peers/peer0.org1.zhangbiao651.top/tls/ca.crt
+
+  peer0.org2.zhangbiao651.top:
+    url: peer0.org2.zhangbiao651.top:9051
+    grpcOptions:
+      ssl-target-name-override: peer0.org2.zhangbiao651.top
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      allow-insecure: false
+
+    tlsCACerts:
+      path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org2.zhangbiao651.top/tlsca/tlsca.org2.zhangbiao651.top-cert.pem
+        #path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org2.zhangbiao651.top/peers/peer0.org2.zhangbiao651.top/tls/ca.crt
+
+  peer1.org2.zhangbiao651.top:
+    url: peer1.org2.zhangbiao651.top:9151
+    grpcOptions:
+      ssl-target-name-override: peer1.org2.zhangbiao651.top
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      allow-insecure: false
+    tlsCACerts:
+      path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org2.zhangbiao651.top/tlsca/tlsca.org2.zhangbiao651.top-cert.pem
+      #path: /home/zb/fabric/project/v0.0.1/fabric-manager/fixtrues/orgs/peerOrganizations/org2.zhangbiao651.top/peers/peer1.org2.zhangbiao651.top/tls/ca.crt
+
+
+
+entityMatchers:
+  peer:
+
+    - pattern: (\w+).org1.zhangbiao651.top:(\d+)
+      urlSubstitutionExp: ${1}.org1.zhangbiao651.top:${2}
+      sslTargetOverrideUrlSubstitutionExp: ${1}.org1.zhangbiao651.top
+      mappedHost: peer0.org1.zhangbiao651.top
+
+  

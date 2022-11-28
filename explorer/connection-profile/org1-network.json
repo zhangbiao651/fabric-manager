@@ -1,0 +1,60 @@
+{
+	"name": "org1-network",
+	"version": "1.0.0",
+	"client": {
+		"tlsEnable": true,
+		"adminCredential": {
+			"id": "admin",
+			"password": "adminpw"
+		},
+		"enableAuthentication": true,
+		"organization": "Org1MSP",
+		"connection": {
+			"timeout": {
+				"peer": {
+					"endorser": "300"
+				},
+				"orderer": "300"
+			}
+		}
+	},
+	"channels": {
+		"mychannel": {
+			"peers": {
+				"peer0.org1.zhangbiao651.top": {},
+				"peer1.org1.zhangbiao651.top": {}
+			}
+		},
+		"testchannel": {
+			"peers": {
+				"peer0.org1.zhangbiao651.top": {}
+			}
+		}
+	},
+	"organizations": {
+		"Org1MSP": {
+			"mspid": "Org1MSP",
+			"adminPrivateKey": {
+				"path": "/tmp/crypto/peerOrganizations/org1.zhangbiao651.top/users/Admin@org1.zhangbiao651.top/msp/keystore/priv_sk"
+			},
+			"peers": ["peer0.org1.zhangbiao651.top","peer1.org1.zhangbiao651.top"],
+			"signedCert": {
+				"path": "/tmp/crypto/peerOrganizations/org1.zhangbiao651.top/users/Admin@org1.zhangbiao651.top/msp/signcerts/Admin@org1.zhangbiao651.top-cert.pem"
+			}
+		}
+	},
+	"peers": {
+		"peer0.org1.zhangbiao651.top": {
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/org1.zhangbiao651.top/peers/peer0.org1.zhangbiao651.top/tls/ca.crt"
+			},
+			"url": "grpcs://peer0.org1.zhangbiao651.top:7051"
+		},
+		"peer1.org1.zhangbiao651.top": {
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peerOrganizations/org1.zhangbiao651.top/peers/peer1.org1.zhangbiao651.top/tls/ca.crt"
+			},
+			"url": "grpcs://peer1.org1.zhangbiao651.top:9051"
+		}
+	}
+}
